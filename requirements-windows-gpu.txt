@@ -1,0 +1,24 @@
+# =========================================================================
+# Windows native venv only — installs pip CUDA 12 wheels needed by
+# onnxruntime-gpu when running OUTSIDE Docker.
+#
+# Usage:
+#   pip install -r requirements-windows-gpu.txt
+#
+# At startup, app/core/runtime.py registers
+# site-packages\nvidia\*\bin on the DLL search path before ONNX Runtime
+# loads, so CUDA / cuDNN are picked up without a system-wide CUDA install.
+#
+# DO NOT include this file in the Docker build — the CUDA base image
+# already provides the required libraries.
+# =========================================================================
+
+-r requirements.txt
+
+nvidia-cublas-cu12
+nvidia-cudnn-cu12
+nvidia-cuda-runtime-cu12
+nvidia-cufft-cu12
+nvidia-curand-cu12
+nvidia-cuda-nvrtc-cu12
+nvidia-nvjitlink-cu12

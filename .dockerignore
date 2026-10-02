@@ -1,0 +1,52 @@
+# -----------------------------------------------------------------------------
+# .dockerignore — keep the build context small + reproducible.
+# -----------------------------------------------------------------------------
+
+# VCS
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__
+*.py[cod]
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local environments
+venv/
+.venv/
+env/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Backend repo lives next to us but is NOT part of this image
+attendance-system/
+
+# Weights are mounted as a volume at runtime, not baked into the image
+buffalo_l/
+models_weight/
+models/
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# Logs / artifacts
+*.log
+logs/
+
+# Tests + docs not needed at runtime
+tests/
+docs/
+README.md

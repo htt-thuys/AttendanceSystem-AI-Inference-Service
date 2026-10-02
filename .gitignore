@@ -1,0 +1,46 @@
+# -----------------------------------------------------------------------------
+# .gitignore — Python + ONNX weights + venv + Docker scratch.
+# -----------------------------------------------------------------------------
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+build/
+dist/
+
+# Local environments
+venv/
+.venv/
+env/
+.env
+.env.*
+!.env.example
+
+# Model weights (large binaries — distribute out-of-band)
+models/*.onnx
+!models/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/

@@ -1,0 +1,69 @@
+# =============================================================================
+# docker-compose.yml — AI Service System
+#
+# Default: GPU-enabled build, GPU reservation requested but optional. Run with
+#   docker compose up --build
+#
+# On a CPU-only host, comment out (or remove) the `deploy.resources.reservations`
+# block. `onnxruntime-gpu` will detect the missing CUDA provider and use CPU.
+# =============================================================================
+
+services:
+  detection-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ai-service-system:latest
+    container_name: ai-detection
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      HOST: "0.0.0.0"
+      PORT: "8000"
+      MODELS_DIR: "/app/models"
+      SERVICE_MODE: "detection"
+      RECOGNITION_SERVICE_URL: "http://ai-recognition:8000"
+    ports:
+      - "8002:8000"
+    volumes:
+      - ./models:/app/models:ro
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health', timeout=3)\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    networks:
+      - ai-net
+
+  recognition-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ai-service-system:latest
+    container_name: ai-recognition
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      HOST: "0.0.0.0"
+      PORT: "8000"
+      MODELS_DIR: "/app/models"
+      SERVICE_MODE: "recognition"
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./models:/app/models:ro
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health', timeout=3)\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    networks:
+      - ai-net
+
+networks:
+  ai-net:
+    driver: bridge

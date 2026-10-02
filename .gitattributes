@@ -1,0 +1,17 @@
+# Shell scripts must use LF so Linux containers can exec them.
+docker/entrypoint.sh text eol=lf
+
+# default
+* text=auto
+
+# Linux shell scripts
+*.sh text eol=lf
+
+# Python
+*.py text eol=lf
+
+# Docker
+Dockerfile text eol=lf
+
+# Windows batch
+*.bat text eol=crlf

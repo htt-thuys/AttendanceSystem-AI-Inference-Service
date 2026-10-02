@@ -1,0 +1,30 @@
+# =========================================================================
+# AI Service System — Python dependencies (Linux / Docker)
+# Python: 3.11+
+#
+# Scope:
+#   - Pure inference service: receives image bytes, returns 512-d embedding.
+#   - No database / vector store dependencies (BE team owns Qdrant + Postgres).
+#
+# For Windows native GPU venv, also install requirements-windows-gpu.txt
+# which pulls NVIDIA CUDA 12 wheels (cuBLAS, cuDNN, cuFFT, ...).
+# =========================================================================
+
+# --- API layer ---
+fastapi>=0.115.0,<1.0.0
+uvicorn[standard]>=0.32.0,<1.0.0
+pydantic>=2.9.0,<3.0.0
+pydantic-settings>=2.5.0,<3.0.0
+python-multipart>=0.0.12
+
+# --- Computer vision / image IO ---
+opencv-python-headless>=4.10.0
+numpy>=1.26.0,<2.2.0
+pillow>=10.4.0
+
+# --- ONNX inference (GPU build; falls back to CPU provider at runtime) ---
+onnxruntime>=1.19.0
+
+# --- Test ---
+pytest>=8.3.0,<9.0.0
+httpx>=0.28.0,<1.0.0
